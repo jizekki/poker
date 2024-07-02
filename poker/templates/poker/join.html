@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% comment %} {% load crispy_forms_tags %} {% endcomment %}
+{% block content %}
+<form class="flex flex-col justify-center w-[100%] items-center gap-2 h-screen dark:bg-slate-950" method="post" id="form_{{ form.instance.id }}">
+    <div class="card w-[90%] bg-base-100 shadow-xl">
+        <div class="card-body items-center text-center">
+            <p class="card-title text-2xl font-light pb-4">Fill in session ID</p>
+                {% csrf_token %}
+                {% for error in form.public_identifier.errors %}
+                    <p class="text-error">{{error}}</p>
+                {% endfor %}
+                {{form.public_identifier}}
+
+                {% for error in form.username.errors %}
+                    <p class="text-error">{{error}}</p>
+                {% endfor %}
+                {{form.username}}
+        </div>
+    </div>
+    <div class="flex flex-row pt-2">
+        <button class="btn btn-accent" hx-post="{% url 'poker:join'  %}" hx-trigger="click" hx-target="#content" hx-replace-url="true">Join  session</button>
+    </div>
+</form>
+{% endblock %}

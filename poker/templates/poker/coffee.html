@@ -1,0 +1,49 @@
+<style>
+    #emoji-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    
+    #emoji-container {
+        position: relative;
+    }
+    
+    .emoji {
+        position: absolute;
+        font-size: 96px;
+        animation: floatUp 4s ease-out forwards;
+    }
+    
+    @keyframes floatUp {
+        0% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-700px);
+            opacity: 0;
+        }
+    }
+</style>
+<button id="emoji-container"></button>
+<script>
+    function onNeedACoffee()
+    {
+        const emoji = document.createElement('div');
+        emoji.classList.add('emoji');
+        emoji.textContent = '☕️';
+    
+        const container = document.getElementById('emoji-container');
+        container.appendChild(emoji);
+        console.log(window.innerWidth)
+    
+        // Position the emoji at a random position within the container
+        emoji.style.left = `${Math.random() * window.innerWidth }px`;
+    
+        // Remove the emoji after the animation is done
+        emoji.addEventListener('animationend', function() {
+            emoji.remove();
+        });
+    }
+</script>

@@ -1,0 +1,27 @@
+<span id="estimations_page" hx-get="{% url 'poker:possible_estimations_partial' %}" hx-target="#estimations_page" hx-swap="outerHTML" hx-trigger="update_estimations_page from:body">
+    <div class="flex flex-col justify-center items-center h-screen dark:bg-slate-950">
+        <div class="flex flex-col gap-1 pb-8 content-center w-[25%]">
+            {% if object.is_estimation_running %}
+                <div id="estimation_started_alert" role="alert" class="alert alert-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>An estimation has been started</span>
+                </div>
+            {% else %}
+                <div id="estimation_stopped_alert" role="alert" class="alert alert-warning">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>No estimation is running now</span>
+                </div>
+            {% endif %}
+        </div>
+        <div class="grid grid-cols-7 gap-4" id="estimations_list" >
+            {% for estimation in possible_estimations %}
+                {% include "poker/estimation.html" with estimation_value=estimation estimation_text=estimation estimation_running=object.is_estimation_running %}
+            {% endfor %}
+            {% include "poker/estimation.html" with estimation_value=-1 estimation_text="?" estimation_running=object.is_estimation_running %}
+        </div>
+        <div class="pt-6 gap-1">
+            <button id="sumbit_estimation_button" class="btn btn-accent btn-disabled" hx-get="{% url 'poker:home' %}" hx-trigger="click" hx-target="#content" hx-replace-url="false">Submit estimation</button>
+            <button id="emoji-button" class="btn btn-accent" _="on click call needACoffee()">I need a ☕️</button>
+        </div>
+    </div>
+</span>

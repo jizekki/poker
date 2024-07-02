@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="flex flex-col justify-center items-center gap-3 h-screen dark:bg-slate-950">
+        <div class="card w-1/2 bg-base-100 shadow-xl">
+            <div class="card-body items-center text-center">
+                <p class="card-title text-2xl font-light">Session ID : <span class="code">{{ object.public_identifier }}</span></p>
+            </div>
+        </div>
+       <div class="flex flex-row justify-center items-center h-[60%] gap-3 w-[90%]">
+            <div class="card w-1/2 bg-base-100 h-[100%] shadow-xl">
+                <div class="flex flex-row justify-center pt-4">
+                    <p class="card-title text-2xl font-light">Participants</p>
+                </div>
+                <div class="card-body items-center text-start">
+                    <span hx-get="{% url 'poker:participants_list' object.public_identifier %}" hx-swap="outerHTML" hx-trigger="load">
+                </div>
+            </div>
+            <div class="card bg-base-100 h-[100%] w-[30%] shadow-xl">
+                <div class="card-body items-center justify-center">
+                    <div class="card w-40 h-60 cursor-default bg-gradient-to-br from-cyan-500 to-blue-500 shadow-xl estimation-option" _="">
+                        <div class="card-body items-center text-center font-black text-gray-900 dark:text-white">
+                            <p class="card-title text-5xl">
+                                <span class="loading loading-infinity loading-lg text-white"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       </div>
+        <div class="flex flex-row pt-2 gap-2">
+            {% include "poker/start_and_stop_estimation.html" %}
+            <button class="btn btn-warning" _="on click call onNeedACoffee()">Coffee</button>
+        </div>
+    </div>
+    {% include "poker/coffee.html" %}
+    <script>
+        const pokerSocket = new WebSocket("ws://" + window.location.host + "/ws/poker/");
+        {% comment %} const pokerSocket = new WebSocket("ws://" + window.location.host + "/ws/poker/{{object.public_identifier}}"); {% endcomment %}
+
+        pokerSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            const messageType = data["type"];
+
+            if(messageType == "participant.update")
+            {
+                htmx.trigger("#participants_list", "update_participants_list");
+            }
+            else if ( messageType == "participant.needACoffee" )
+            {
+                onNeedACoffee();
+            }
+        };
+
+        pokerSocket.onclose = function(e) {
+            console.error("Chat socket closed unexpectedly");
+        };
+
+        // Send message to server
+        function sendMessage(message) {
+            pokerSocket.send(JSON.stringify(message));
+        }
+    </script>
+{% endblock %}

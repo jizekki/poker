@@ -1,0 +1,9 @@
+<span id="start_and_stop_estimation">
+    {% if object.is_estimation_running %}
+        <button id="start_estimation_button" class="btn btn-accent btn-disabled" hx-get="{% url 'poker:start_estimation' object.pk  %}" hx-trigger="click" hx-target="#start_and_stop_estimation" hx-swap="innerHTML" hx-replace-url="false">Start estimation</button>
+        <button id="stop_estimation_button" class="btn btn-warning" hx-get="{% url 'poker:stop_estimation' object.pk  %}" hx-trigger="click" hx-target="#start_and_stop_estimation" hx-swap="innerHTML" hx-replace-url="false">End estimation</button>
+    {% else %}
+        <button id="start_estimation_button" class="btn btn-accent" hx-get="{% url 'poker:start_estimation' object.pk  %}" hx-trigger="click" hx-target="#start_and_stop_estimation" hx-swap="innerHTML" hx-replace-url="false">Start estimation</button>
+        <button id="stop_estimation_button" class="btn btn-warning btn-disabled" hx-get="{% url 'poker:stop_estimation' object.pk  %}" hx-trigger="click" hx-target="#start_and_stop_estimation" hx-swap="innerHTML" hx-replace-url="false">End estimation</button>
+    {% endif %}
+</span>

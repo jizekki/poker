@@ -1,0 +1,5 @@
+<div id="participants_list" class="flex flex-col flex-col-2 w-[90%] items-center gap-3" hx-get="{% url 'poker:participants_list' session.public_identifier %}" hx-target="#participants_list" hx-swap="outerHTML" hx-trigger="update_participants_list from:body">
+    {% for user in users %}
+        {% include "poker/username_template.html" with object=user session=session %}
+    {% endfor %}
+</div>

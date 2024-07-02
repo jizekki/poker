@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="flex flex-row justify-center items-center h-screen dark:bg-slate-950">
+        <div class="grid grid-cols-2 gap-4">
+            <div class="card w-96 bg-base-100 shadow-xl">
+                <div class="card-body items-center text-center">
+                  <p class="card-title text-xl">Create a new session</p>
+                  <div class="card-actions pt-6">
+                    <button hx-get="{% url 'poker:create' %}" hx-target="#content" hx-swap="innerHTML" hx-replace-url="true" class="btn btn-primary">Create</button>
+                  </div>
+                </div>
+            </div>
+            <div class="card w-96 bg-base-100 shadow-xl">
+                <div class="card-body items-center text-center">
+                  <p class="card-title text-xl">Join an exising session</p>
+                  <div class="card-actions pt-6">
+                    <button hx-get="{% url 'poker:join' %}" hx-target="#content" hx-swap="innerHTML" hx-replace-url="true" class="btn btn-primary">Join</button>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+<div id="username_{{object.username}}" class="card w-[90%] bg-base-200 shadow-md">
+    <div class="card-body py-3">
+        <div class="flex flex-row content-between">
+            <p class="text-2xl">{{object.username}}</p>
+                {% if user.status == "PENDING" %}
+                    <i data-lucide="circle-pause"></i>
+                {% elif user.status == "ESTIMATION_RUNNING" %}
+                    <span class="hidden loading loading-dots loading-md"></span>
+                {% elif user.status == "ESTIMATION_SUBMITTED" %}
+                    <span class="text-accent hidden">
+                        <i data-lucide="badge-check"></i>
+                    </span>
+                {% endif %}
+
+                <span class="text-2xl text-accent hidden">2</span>
+        </div>
+    </div>
+</div>

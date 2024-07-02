@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+    <span hx-get="{% url 'poker:possible_estimations_partial' %}" hx-swap="outerHTML" hx-trigger="load">
+    <script>
+        console.log("creating socket")
+        const pokerSocket = new WebSocket("ws://" + window.location.host + "/ws/poker/");
+        {% comment %} const pokerSocket = new WebSocket("ws://" + window.location.host + "/ws/poker/{{object.public_identifier}}"); {% endcomment %}
+
+        pokerSocket.onmessage = function(e) {
+            console.log("received message from socket")
+            const data = JSON.parse(e.data);
+            const messageType = data["type"];
+
+            if ( messageType == "organizer.isEstimationRunningChanged" )
+            {
+                htmx.trigger("#estimations_page", "update_estimations_page");
+            }
+        };
+
+        pokerSocket.onclose = function(e) {
+            console.error("Chat socket closed unexpectedly");
+        };
+
+        // Send message to server
+        function sendMessage(message) {
+            pokerSocket.send(JSON.stringify(message));
+        }
+
+        function needACoffee()
+        {
+            sendMessage({
+                "type": "participant.needACoffee"
+            })
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% if estimation_running %}
+    <div class="card w-40 h-60 cursor-default bg-gradient-to-br from-cyan-500 to-blue-500 shadow-xl opacity-40 estimation-option" _="on click set $latest_estimation to {{estimation_value}} then remove .btn-disabled from #sumbit_estimation_button then add .opacity-40 to .estimation-option then remove .opacity-40 from me">
+        <div class="card-body items-center text-center font-black text-gray-900 dark:text-white">
+            <p class="card-title text-5xl">{{estimation_text}}</p>
+        </div>
+    </div>
+{% else %}
+    <div class="card w-40 h-60 cursor-default bg-gradient-to-br from-cyan-500 to-blue-500 shadow-xl opacity-40 estimation-option">
+        <div class="card-body items-center text-center font-black text-gray-900 dark:text-white">
+            <p class="card-title text-5xl">{{estimation_text}}</p>
+        </div>
+    </div>
+{% endif %}
